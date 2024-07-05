@@ -1,0 +1,59 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+*,
+*::after,
+*::before {
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-form {
+  display: flex;
+  flex-direction: column;
+  margin: 50px auto;
+  gap: 24px;
+  background-color: rgb(223, 223, 223);
+  border-radius: 20px;
+  padding: 32px;
+  max-width: 600px;
+  width: 100%;
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &__field {
+    background: white;
+    border: none;
+    padding: 15px;
+    border: 1px solid transparent;
+
+    &-error {
+      border-color: red;
+    }
+  }
+
+  &__button {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 15px 20px;
+  }
+
+  &__error {
+    position: absolute;
+    bottom: -16px;
+    left: 4px;
+    color: red;
+    font-size: 8px;
+    line-height: 14px;
+  }
+}
