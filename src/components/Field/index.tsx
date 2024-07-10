@@ -26,6 +26,7 @@ const Field: React.FC<PropsField> = ({
   useEffect(() => {
     if (value) {
       setValue(value);
+      console.log(value);
     }
   }, [value]);
 
