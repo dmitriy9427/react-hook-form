@@ -1,8 +1,12 @@
 import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+
 import Field from "../Field";
 
-interface typeInps {
+import { PATTERN_EMAIL } from "../../utils/constants";
+
+interface TypeInps {
   name: string;
   email: string;
   password: string;
@@ -13,9 +17,9 @@ const FormSimple: React.FC = () => {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<typeInps>();
+  } = useForm<TypeInps>();
 
-  const onSubmit: SubmitHandler<typeInps> = (data) => {
+  const onSubmit: SubmitHandler<TypeInps> = (data) => {
     console.log(data);
   };
 
@@ -26,22 +30,33 @@ const FormSimple: React.FC = () => {
         control={control}
         defaultValue=""
         rules={{
-          required: true,
-          minLength: 3,
+          required: "Обязательное поле",
+          minLength: {
+            value: 3,
+            message: "Минимальное количество сиволов 3",
+          },
         }}
         render={({ field: { onChange, onBlur, value, name } }) => {
           return (
-            <Field
-              onChangeInput={onChange}
-              onBlur={onBlur}
-              value={value}
-              typeField="text"
-              errorName={errors.name?.type}
-              id="name"
-              placeholder="Ведите имя*"
-              lengthSymbols="3"
-              name={name}
-            />
+            <label className="app-form__label" htmlFor="name">
+              <Field
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                typeField="text"
+                errorName={errors.name}
+                id="name"
+                placeholder="Ведите имя*"
+                name={name}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="name"
+                render={({ message }) => (
+                  <span className="app-form__error">{message}</span>
+                )}
+              />
+            </label>
           );
         }}
       />
@@ -50,21 +65,33 @@ const FormSimple: React.FC = () => {
         name="email"
         control={control}
         rules={{
-          required: true,
-          pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
+          required: "Обязательное поле",
+          pattern: {
+            value: PATTERN_EMAIL,
+            message: "Введите корректный email",
+          },
         }}
         render={({ field: { onChange, onBlur, value, name } }) => {
           return (
-            <Field
-              onChangeInput={onChange}
-              onBlur={onBlur}
-              value={value}
-              typeField="email"
-              errorName={errors.email?.type}
-              id="email"
-              placeholder="Ведите email*"
-              name={name}
-            />
+            <label className="app-form__label" htmlFor="email">
+              <Field
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                typeField="email"
+                errorName={errors.email}
+                id="email"
+                placeholder="Ведите email*"
+                name={name}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="email"
+                render={({ message }) => (
+                  <span className="app-form__error">{message}</span>
+                )}
+              />
+            </label>
           );
         }}
       />
@@ -72,22 +99,33 @@ const FormSimple: React.FC = () => {
         name="password"
         control={control}
         rules={{
-          required: true,
-          minLength: 5,
+          required: "Обязательное поле",
+          minLength: {
+            value: 6,
+            message: "Минимальное количество сиволов 6",
+          },
         }}
         render={({ field: { onChange, onBlur, value, name } }) => {
           return (
-            <Field
-              onChangeInput={onChange}
-              onBlur={onBlur}
-              value={value}
-              typeField="password"
-              errorName={errors.password?.type}
-              id="password"
-              placeholder="Ведите пароль*"
-              lengthSymbols="5"
-              name={name}
-            />
+            <label className="app-form__label" htmlFor="password">
+              <Field
+                onChange={onChange}
+                onBlur={onBlur}
+                value={value}
+                typeField="password"
+                errorName={errors.password}
+                id="password"
+                placeholder="Ведите пароль*"
+                name={name}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="password"
+                render={({ message }) => (
+                  <span className="app-form__error">{message}</span>
+                )}
+              />
+            </label>
           );
         }}
       />

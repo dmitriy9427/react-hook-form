@@ -1,58 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import classNames from "classnames";
 
-interface Props {
-  onChangeInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: () => void;
+interface PropsField {
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: () => void;
   value: string;
-  errorName: string | undefined;
+  errorName: object | undefined;
   typeField: string;
   placeholder: string;
   id: string;
-  lengthSymbols?: string;
   name: string;
 }
 
-const Field: React.FC<Props> = ({
+const Field: React.FC<PropsField> = ({
   errorName,
   typeField,
   placeholder,
   id,
-  lengthSymbols,
   value,
-  onChangeInput,
+  onChange,
   name,
 }) => {
   const [valueInp, setValue] = useState<string>(value || "");
+
+  useEffect(() => {
+    if (value) {
+      setValue(value);
+    }
+  }, [value]);
+
   return (
-    <label className="app-form__label" htmlFor={id}>
-      <input
-        className={
-          errorName
-            ? "app-form__field app-form__field-error"
-            : "app-form__field"
-        }
-        type={typeField}
-        placeholder={placeholder}
-        id={id}
-        value={valueInp}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setValue(e.target.value);
-          onChangeInput(e);
-        }}
-        name={name}
-      />
-      {errorName === "minLength" && (
-        <span className="app-form__error">
-          {`Минимальное количество сиволов ${lengthSymbols}`}
-        </span>
-      )}
-      {errorName === "required" && (
-        <span className="app-form__error">Обязательное поле</span>
-      )}
-      {errorName === "pattern" && (
-        <span className="app-form__error">Введите корректный email</span>
-      )}
-    </label>
+    <input
+      className={classNames("app-form__field", {
+        "app-form__field-error": errorName,
+      })}
+      placeholder={placeholder}
+      type={typeField}
+      id={id}
+      value={valueInp}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+        onChange(e);
+      }}
+      name={name}
+    />
   );
 };
 
